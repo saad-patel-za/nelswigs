@@ -1,0 +1,2 @@
+window.PRODUCT_VARIANTS={"0":[{"id":53066251206943,"title":"Default Title","available":true,"price":12999}],"4":[{"id":53066247733535,"title":"Default Title","available":true,"price":12999}],"7":[{"id":53061791121695,"title":"Small","available":true,"price":8999},{"id":53061791154463,"title":"Average","available":false,"price":8999},{"id":53061791187231,"title":"Large","available":true,"price":8999}]};
+window.PRODUCT_VARIANTS[1]=[{id:53066248487199,title:"Standard option",available:true,price:12999}];
