@@ -2,19 +2,10 @@ document.addEventListener('DOMContentLoaded',()=>{
   const slider=document.querySelector('.hero-slider');
   const slides=[...slider.querySelectorAll('[data-slide]')];
   const dots=[...slider.querySelectorAll('[data-go-slide]')];
-  let active=0,timer=null,playing=false;
-  function selectSlide(n){active=(n+slides.length)%slides.length;slides.forEach((s,i)=>s.hidden=i!==active);dots.forEach((d,i)=>d.setAttribute('aria-pressed',i===active));document.querySelector('#slide-count').textContent=`${active+1} / ${slides.length}`}
-  function stopTimer(){clearInterval(timer);timer=null}
-  function startTimer(){stopTimer();if(playing&&!document.hidden)timer=setInterval(()=>selectSlide(active+1),6500)}
-  function setPlaying(value){playing=value;const b=document.querySelector('#slide-play');b.setAttribute('aria-pressed',value);b.setAttribute('aria-label',value?'Pause slideshow':'Play slideshow');b.innerHTML=value?'Ⅱ <span>Pause</span>':'▷ <span>Play</span>';value?startTimer():stopTimer()}
-  document.querySelector('#slide-prev').onclick=()=>{setPlaying(false);selectSlide(active-1)};
-  document.querySelector('#slide-next').onclick=()=>{setPlaying(false);selectSlide(active+1)};
-  dots.forEach(d=>d.onclick=()=>{setPlaying(false);selectSlide(Number(d.dataset.goSlide))});
-  document.querySelector('#slide-play').onclick=()=>setPlaying(!playing);
-  slider.addEventListener('mouseenter',stopTimer);slider.addEventListener('mouseleave',startTimer);
-  slider.addEventListener('focusin',e=>{if(e.target.id!=='slide-play')setPlaying(false)});
-  document.addEventListener('visibilitychange',()=>document.hidden?stopTimer():startTimer());
-  slider.addEventListener('keydown',e=>{if(e.target.tagName==='A'||e.target.tagName==='BUTTON')return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();setPlaying(false);selectSlide(active+(e.key==='ArrowRight'?1:-1))}});
+  let active=0;
+  function selectSlide(n){active=(n+slides.length)%slides.length;slides.forEach((s,i)=>s.hidden=i!==active);dots.forEach((d,i)=>d.setAttribute('aria-pressed',i===active))}
+  dots.forEach(d=>d.onclick=()=>selectSlide(Number(d.dataset.goSlide)));
+  slider.addEventListener('keydown',e=>{if(e.target.tagName==='A'||e.target.tagName==='BUTTON')return;if(e.key==='ArrowRight'||e.key==='ArrowLeft'){e.preventDefault();selectSlide(active+(e.key==='ArrowRight'?1:-1))}});
   function fitBanner(){const top=document.querySelector('.announcement').getBoundingClientRect().height+document.querySelector('.header-main').getBoundingClientRect().height+(matchMedia('(min-width:761px)').matches?document.querySelector('nav').getBoundingClientRect().height:0);slider.style.setProperty('--header-height',`${Math.ceil(top)}px`)}
   const resizeObserver=new ResizeObserver(fitBanner);resizeObserver.observe(document.querySelector('.header-main'));resizeObserver.observe(document.querySelector('.announcement'));window.addEventListener('resize',fitBanner);fitBanner();
 
